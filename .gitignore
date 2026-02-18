@@ -13,5 +13,11 @@ wheels/
 uv.lock
 .python-version
 
+# macos system files
+.DS_Store
+
 # pycharm generated files
 .idea/
+
+# logging files
+game_state.jsonl
