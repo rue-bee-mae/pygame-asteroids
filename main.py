@@ -28,11 +28,12 @@ def main():
             if event.type == pygame.QUIT:  # quit when user hits the quit button on pygame window
                 return
 
-            screen.fill("black")
-            player.draw(screen)
+        screen.fill("black")
+        player.update(dt)
+        player.draw(screen)
 
-            pygame.display.flip()  # draw output to screen
-            dt = clock.tick(60) / 1000  # advance delta time
+        pygame.display.flip()  # draw output to screen
+        dt = clock.tick(60) / 1000  # advance delta time
 
 
 if __name__ == "__main__":
