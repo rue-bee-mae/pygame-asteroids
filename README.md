@@ -11,11 +11,12 @@ WASD to rotate/move, space to shoot.
 * Collision
   * Game over on touch asteroid
   * Split/destroy asteroid when shot
+* Scoring
 
 ## TODO
 
 In no particular order:
-* Scoring system
+* High score system
 * Collision between asteroids
 * Multiple lives
 * Asteroid explosion effect

@@ -3,10 +3,11 @@ import pygame
 
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FONT, FONT_SIZE
 from logger import log_state, log_event
 from player import Player
 from shot import Shot
+from score import Score
 
 
 def main():
@@ -23,6 +24,11 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    text = pygame.sprite.Group()
+
+    # set upscore
+    Score.containers = text
+    score = Score(FONT, FONT_SIZE)
 
     # set up shots
     Shot.containers = (updatable, drawable, shots)
@@ -38,7 +44,7 @@ def main():
     Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-    # print game start message
+    # print game start message to console
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -50,9 +56,11 @@ def main():
             if event.type == pygame.QUIT:  # quit when user hits the quit button on pygame window
                 return
 
+        # make background black and update game objects
         screen.fill("black")
         updatable.update(dt)
 
+        # do asteroid collision checks
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 log_event("player_hit")
@@ -61,9 +69,14 @@ def main():
             for shot in shots:
                 if shot.collides_with(asteroid):
                     log_event("asteroid_shot")
-                    asteroid.split()
+                    score.change_score(asteroid.split())
                     shot.kill()
 
+        # blit score to screen
+        score_surf = score.render(score.score, True, "white")
+        screen.blit(score_surf, (50, 50))
+
+        # draw sprites to screen
         for sprite in drawable:
             sprite.draw(screen)
 
